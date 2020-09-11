@@ -13,15 +13,22 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-});
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log(" connected to mongo");
+    app.listen(PORT, () => {
+      console.log(`🚀 App running on PORT: http://localhost:${PORT} 🚀`);
+    });
+  });
 
 // routes
-// app.use("./routes/api.js");
-require("./app/routes/html-routes")(app);
+app.use(require("./routes/api-routes"));
+require("./routes/html-routes")(app);
 
-app.listen(PORT, () => {
-  console.log(`🚀 App running on PORT: http://localhost:${PORT} 🚀`);
-});
+// app.listen(PORT, () => {
+//   console.log(`🚀 App running on PORT: http://localhost:${PORT} 🚀`);
+// });
