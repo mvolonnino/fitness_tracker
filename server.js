@@ -13,9 +13,15 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
+// routes
+app.use(require("./routes/api-routes"));
+require("./routes/html-routes")(app);
+
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
     useFindAndModify: false,
   })
   .then(() => {
@@ -24,11 +30,3 @@ mongoose
       console.log(`🚀 App running on PORT: ${PORT} 🚀`);
     });
   });
-
-// routes
-app.use(require("./routes/api-routes"));
-require("./routes/html-routes")(app);
-
-// app.listen(PORT, () => {
-//   console.log(`🚀 App running on PORT: http://localhost:${PORT} 🚀`);
-// });
