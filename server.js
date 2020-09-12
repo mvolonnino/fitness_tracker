@@ -21,7 +21,7 @@ mongoose
   .then(() => {
     console.log(" connected to mongo");
     app.listen(PORT, () => {
-      console.log(`🚀 App running on PORT: http://localhost:${PORT} 🚀`);
+      console.log(`🚀 App running on PORT: ${PORT} 🚀`);
     });
   });
 
