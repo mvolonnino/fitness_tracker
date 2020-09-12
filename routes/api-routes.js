@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Workout = require("../models/workoutModel");
 const mongojs = require("mongojs");
+const { response } = require("express");
 // const db = require("../models");
 
 router.get("/api/workouts", (req, res) => {
@@ -44,14 +45,6 @@ router.put("/api/workouts/:id", (req, res) => {
 });
 
 router.post("/api/workouts", ({ body }, res) => {
-  console.log("body: ", typeof body);
-  const keys = Object.keys(body);
-  console.log("keys: ", keys);
-
-  // if (keys.length === 0) {
-  //   console.log("empty obj");
-  //   return;
-  // } else {
   Workout.create({})
     .then((response) => {
       console.log("response: ", response);
@@ -60,9 +53,19 @@ router.post("/api/workouts", ({ body }, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-  // }
+
 });
 
-// router.get("/api/workouts/range");
+router.get("/api/workouts/range", (req, res) => {
+  console.log("req: ", req);
+  Workout.find({})
+    .then((response) => {
+      console.log("response: ", response);
+      res.json(response);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 module.exports = router;
